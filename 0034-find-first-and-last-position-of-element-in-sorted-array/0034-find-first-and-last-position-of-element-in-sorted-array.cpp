@@ -1,42 +1,42 @@
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& arr, int x) {
-        int n = arr.size();
-    int firstIndex=-1;
-    int start1=0;
-    int end1=n-1;
-    int mid1=start1+(end1-start1)/2;
-    while(start1<=end1){
-        if(arr[mid1]==x){
-            firstIndex=mid1;
-            end1=mid1-1;
+    int firstoccurance(vector<int> n, int t){
+        int l = 0;
+        int r = n.size() - 1;
+        int res = -1;
+        while(l <= r){
+            int mid = l + (r - l)/2;
+            if(n[mid] == t){
+                res = mid;
+                r = mid - 1;
+            }
+            if(n[mid] > t) r = mid - 1;
+            if(n[mid] < t) l = mid + 1;
         }
-        else if(arr[mid1]<x){
-            start1=mid1+1;
+        return res;
+    }
+    int lastoccurance(vector<int> n, int t){
+        int l = 0;
+        int r = n.size() - 1;
+        int res = -1;
+        while(l <= r){
+            int mid = l + (r - l)/2;
+            if(n[mid] == t){
+                res = mid;
+                l = mid + 1;
+            }
+            if(n[mid] > t) r = mid - 1;
+            if(n[mid] < t) l = mid + 1;
         }
-        else{
-            end1=mid1-1;
-        }
-        mid1=start1+(end1-start1)/2;
+        return res;
     }
 
-    int lastIndex=-1;
-    int start2=0;
-    int end2=n-1;
-    int mid2=start2+(end2-start2)/2;
-    while(start2<=end2){
-        if(arr[mid2]==x){
-            lastIndex=mid2;
-            start2=mid2+1;
-        }
-        else if(arr[mid2]<x){
-            start2=mid2+1;
-        }
-        else{
-            end2=mid2-1;
-        }
-        mid2=start2+(end2-start2)/2;
-    }
-    return {firstIndex,lastIndex};
+    vector<int> searchRange(vector<int>& n, int t) {
+        vector<int>ans;
+        int firstocc = firstoccurance(n, t);
+        int lastocc = lastoccurance(n, t);
+        ans.push_back(firstocc);
+        ans.push_back(lastocc);
+        return ans;
     }
 };
