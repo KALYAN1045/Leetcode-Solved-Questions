@@ -15,13 +15,11 @@ public:
     int myAtoi(string s) {
         int i = 0, n = s.size(), sign = 1;
         while (i < n && s[i] == ' ')
-            ++i;
-
-        if (s[i] == '-')
-            sign = -1, ++i;
-        else if (s[i] == '+')
-            ++i;
-
+        {            ++i;}
+            if(s[i] == '-'){
+                sign = -1,++i;
+            }
+            else if(s[i] == '+') ++i;
         return funcatoi(s, i, sign, 0);
     }
 };
