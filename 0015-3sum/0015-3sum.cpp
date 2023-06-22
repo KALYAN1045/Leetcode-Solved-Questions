@@ -8,7 +8,7 @@ public:
             if(i == 0|| (i > 0 && nums[i] != nums[i-1])){
                 int lo = i + 1;
                 int hi = n - 1;
-                int sum = 0 - nums[i];
+                int sum = - nums[i];
                 while(lo < hi){
                     if(nums[lo] + nums[hi] == sum){
                         vector<int>temp;
