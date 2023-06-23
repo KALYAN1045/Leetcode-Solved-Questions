@@ -7,7 +7,7 @@ public:
         int lmax = 0;
         int rmax = 0;
         int res = 0;
-        while(l < r){
+        while(l <= r){
             if(h[l] <= h[r]){
                 if(h[l] > lmax){
                     lmax = h[l];
