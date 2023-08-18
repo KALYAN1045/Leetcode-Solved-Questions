@@ -12,22 +12,42 @@
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
-        stack<TreeNode*>s1;
-        stack<TreeNode*>s2;
-        vector<int>ans;
-        if(root == NULL) return ans;
-        s1.push(root);
-        while(!s1.empty()){
-            TreeNode* curr = s1.top();
-            s2.push(s1.top());
-            s1.pop();
-            if(curr->left != NULL) s1.push(curr->left);
-            if(curr->right != NULL) s1.push(curr->right);
+        vector<int> result;
+    stack<TreeNode*> s;
+    
+    if (root == nullptr) {
+        return result;
+    }
+    
+    s.push(root);
+    TreeNode* prev = nullptr;
+    
+    while (!s.empty()) {
+        TreeNode* curr = s.top();
+        
+        // Check if we are moving down the tree
+        if (prev == nullptr || prev->left == curr || prev->right == curr) {
+            if (curr->left != nullptr) {
+                s.push(curr->left);
+            } else if (curr->right != nullptr) {
+                s.push(curr->right);
+            }
         }
-        while(!s2.empty()){
-            ans.push_back(s2.top()->val);
-            s2.pop();
+        // Check if we are moving up the tree from the left side
+        else if (curr->left == prev) {
+            if (curr->right != nullptr) {
+                s.push(curr->right);
+            }
         }
-        return ans;
+        // Done with both subtrees, pop and add to result
+        else {
+            result.push_back(curr->val);
+            s.pop();
+        }
+        
+        prev = curr;
+    }
+    
+    return result;
     }
 };
