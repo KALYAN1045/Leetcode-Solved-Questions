@@ -9,66 +9,51 @@
  */
 class Solution {
 public:
-    //directed acyclic graph to undirected acyclic graph
-    void buildGraph(TreeNode* root,unordered_map<int,vector<int>>& graph){
-        
-        if(root->left!=NULL){
-            graph[root->val].push_back(root->left->val);
-            graph[root->left->val].push_back(root->val);
-            buildGraph(root->left,graph);
-        }
-        if(root->right!=NULL){            
-            graph[root->val].push_back(root->right->val);
-            graph[root->right->val].push_back(root->val);
-            buildGraph(root->right,graph);            
-        }
-    }
-    
-    
-    vector<int> distanceK(TreeNode* root, TreeNode* target, int K) {
-        
-        if(K==0)
-            return {target->val};
-        
-        //initialisation 
-        
-        unordered_map<int,vector<int>> graph; //graph
-        unordered_map<int,bool> visited;
-        vector<int> res;
-        queue<int> q;
-        int cnt = 0;
-        
-        //build the graph
-        buildGraph(root,graph);
-        
-        //push the target to start bfs with
-        q.push(target->val);
-        
-        //bfs
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*,TreeNode*>parent;
+        unordered_map<TreeNode*,bool>vis;
+        queue<TreeNode*>q;
+        q.push(root);
         while(!q.empty()){
-            int sz = q.size();
-            for(int i=0;i<sz;i++){
-                
-                int curr = q.front();
-                q.pop();
-                visited[curr]=true;
-                
-                for(int x : graph[curr])
-                    if(!visited[x])
-                        q.push(x);
+            TreeNode* curr = q.front();
+            q.pop();
+            if(curr->left && !parent[curr->left]){
+                q.push(curr->left);
+                parent[curr->left] = curr;
             }
-            cnt++;
-            //we reached the Kth layer, push the layer in res vector and break bfs
-            if(cnt==K){
-                while(!q.empty()){
-                    res.push_back(q.front());
-                    q.pop();
-                }
-                break;
+            if(curr->right && !parent[curr->right]){
+                q.push(curr->right);
+                parent[curr->right] = curr;
             }
-                
         }
-        
-        return res;
+        q.push(target);
+        int curr_level = 0;
+        vis[target] = 1;
+        while(!q.empty()){
+            int qsize = q.size();
+            if(curr_level++ == k) break;
+            while(qsize--){
+                TreeNode* curr = q.front();
+                q.pop();
+                if(curr->left && !vis[curr->left]){
+                    q.push(curr->left);
+                    vis[curr->left] = 1;
+                }
+                if(curr->right && !vis[curr->right]){
+                    q.push(curr->right);
+                    vis[curr->right] = 1;
+                }
+                if(parent[curr] && !vis[parent[curr]]){
+                    q.push(parent[curr]);
+                    vis[parent[curr]] = 1;
+                }
+            }
+        }
+        vector<int>ans;
+        while(!q.empty()){
+            ans.push_back(q.front()->val);
+            q.pop();
+        }
+        return ans;
     }
 };
