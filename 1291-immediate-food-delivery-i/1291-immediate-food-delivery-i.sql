@@ -1,7 +1,2 @@
 # Write your MySQL query statement below
-SELECT ROUND(
-    (SELECT COUNT(delivery_id) FROM Delivery WHERE order_date = customer_pref_delivery_date)
-    /
-    (SELECT COUNT(delivery_id) FROM Delivery)*100
-    ,2
-) AS immediate_percentage;
+select round(100 * sum(order_date = customer_pref_delivery_date) / count(*), 2) as immediate_percentage from Delivery;
