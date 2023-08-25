@@ -10,30 +10,29 @@
  */
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        //get no.of elements
-        int no = 0;
-        ListNode* temp = head;
-        if(head == NULL) return head;
-        while(temp != NULL){
-            no++;
-            temp = temp->next;
+    int getlen(ListNode* head){
+        int cnt = 0;
+        while(head != NULL) {
+            cnt++;
+            head = head->next;
         }
-        //go to the pos
-        if(no == n){
+        return cnt;
+    }
+
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int nth = getlen(head) - n;
+        ListNode* temp = head;
+        if (nth == 0) {
             head = head->next;
             return head;
         }
-        ListNode* curr = head;
-        ListNode* prev = NULL;
-        int cnt = 1;
-        while(cnt != no - (n - 1)){
-            cnt++;
-            prev = curr;
-            curr = curr->next;
+        while(temp != NULL && nth > 1){
+            temp = temp->next;
+            nth--;
         }
-        prev->next = curr->next;
-        curr->next = NULL;
+        if (temp != NULL && temp->next != NULL){
+            temp->next = temp->next->next;
+        }
         return head;
     }
 };
