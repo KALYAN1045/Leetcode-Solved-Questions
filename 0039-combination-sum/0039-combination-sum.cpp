@@ -1,10 +1,15 @@
 class Solution {
 public:
     void combo_sum(vector<int>c, int idx, vector<vector<int>>&ans, vector<int>&v, int&sum, int t){
-        if(idx == c.size()){
-            if(sum == t){
-                ans.push_back(v);
-            }
+        // if(idx == c.size()){
+        //     if(sum == t){
+        //         ans.push_back(v);
+        //     }
+        //     return;
+        // }
+        if(idx >= c.size()) return;
+        if(sum == t){
+            ans.push_back(v);
             return;
         }
         if(sum + c[idx] <= t){
