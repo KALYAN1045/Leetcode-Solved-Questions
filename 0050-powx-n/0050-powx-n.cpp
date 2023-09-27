@@ -1,23 +1,19 @@
 class Solution {
 public:
-    double pow(double x, int n){
-        if(n == 0){
-            return 1;
-        }
-        return x*pow(x, n-1);
-    }
-
     double myPow(double x, int n) {
-        double ans;
-        if (n == INT_MAX) return (x == 1) ? 1 : (x == -1) ? -1 : 0;
-        if (n == INT_MIN) return (x == 1 || x == -1) ? 1 : 0;
-        if(n < 0){
-            n = -1 * n;
-            ans = 1.0/pow(x, n);
+        double ans = 1;
+        if(n == 0) return 1;
+        long long N = n;
+        if (N < 0) N = -1 * N;
+        while (N) {
+            if (N % 2) {
+                ans = ans * x;
+                N = N - 1;
+            } else {
+                x = x * x;
+                N = N / 2;
+            }
         }
-        else{
-            ans = pow(x, n);
-        }
-        return ans;
+        return (n<0)?(double)1/ans:ans;
     }
 };
