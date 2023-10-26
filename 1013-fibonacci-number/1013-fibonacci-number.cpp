@@ -1,13 +1,14 @@
 class Solution {
 public:
+    //Bottom up Approach
+    int f(vector<int>& dp, int n){
+        if(n <= 1) return n;
+        if(dp[n] != -1) return dp[n];
+        return dp[n] = f(dp, n-1) + f(dp, n-2);
+    }
+    
     int fib(int n) {
-        int ans[n+2];
-        ans[0]=0;
-        ans[1]=1;
-        
-        for(int i=2; i<=n; i++)
-            ans[i]=ans[i-1]+ans[i-2];
-        
-        return ans[n];
+        vector<int> dp(n+1, -1);
+        return f(dp, n);
     }
 };
