@@ -12,17 +12,16 @@ public:
         int n = t.size();
         int m = t[n-1].size();
         if(n == 1 && m == 1) return t[0][0];
-        vector<vector<int>> dp(n, vector<int>(n, 0));
-        for(int i = 0; i < m; i++){
-            dp[n-1][i] = t[n-1][i];
-        }
+        vector<int> dp (t[n-1].begin(), t[n-1].end());
         for(int i = n-2; i >= 0; i--){
+            vector<int> cur(n);
             for(int j = i; j >= 0; j--){
-                int down = t[i][j] + dp[i+1][j];
-                int diag = t[i][j] + dp[i+1][j+1];
-                dp[i][j] = min(down, diag);
+                int down = t[i][j] + dp[j];
+                int diag = t[i][j] + dp[j+1];
+                cur[j] = min(down, diag);
             }
+            dp = cur;
         }
-        return dp[0][0];
+        return dp[0];
     }
 };
